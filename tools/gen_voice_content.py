@@ -83,6 +83,12 @@ def main() -> None:
     for i in range(1, len(REWARD) + 1):
         keys[f"reward/{i}"] = {"unit": "reward", "line": i}
 
+    # 词句跟读：全部拼读词（与课程顺序一致；应用侧 ReadScreen 用同样的 flatMap 顺序）
+    words = [s["word"] for lesson in course["lessons"] for s in lesson["syllables"] if s.get("word")]
+    units.append({"id": "read", "lines": words})
+    for i in range(1, len(words) + 1):
+        keys[f"read/{i}"] = {"unit": "read", "line": i}
+
     total = sum(len(u["lines"]) for u in units)
     (ROOT / "tools/voice_content.json").write_text(
         json.dumps(units, ensure_ascii=False, indent=1), encoding="utf-8")

@@ -15,6 +15,8 @@ import com.rakor.xuepinyin.data.ProgressRepository
 import com.rakor.xuepinyin.domain.nextLessonId
 import com.rakor.xuepinyin.ui.home.HomeScreen
 import com.rakor.xuepinyin.ui.lesson.LessonScreen
+import com.rakor.xuepinyin.ui.read.ReadScreen
+import com.rakor.xuepinyin.ui.write.WriteScreen
 import kotlinx.coroutines.launch
 
 @Composable
@@ -57,8 +59,17 @@ fun PinyinApp(
                 onPlayAudio = { key -> audioPlayer?.play(key) },
             )
         }
-        composable("read") { StubModuleScreen("读一读", onBack = { nav.popBackStack() }) }
-        composable("write") { StubModuleScreen("写一写", onBack = { nav.popBackStack() }) }
+        composable("read") {
+            ReadScreen(
+                course = course,
+                completedLessonIds = progress.completedLessonIds(),
+                onBack = { nav.popBackStack() },
+                onPlayAudio = { key -> audioPlayer?.play(key) },
+            )
+        }
+        composable("write") {
+            WriteScreen(course = course, onBack = { nav.popBackStack() })
+        }
         composable("play") { StubModuleScreen("玩一玩", onBack = { nav.popBackStack() }) }
         composable("table") { StubModuleScreen("拼音总表", onBack = { nav.popBackStack() }) }
         composable("parent") { StubModuleScreen("家长中心", onBack = { nav.popBackStack() }) }
