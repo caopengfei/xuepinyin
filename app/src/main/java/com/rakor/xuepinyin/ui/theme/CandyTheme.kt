@@ -5,6 +5,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -15,8 +16,12 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.rakor.xuepinyin.ui.InputMode
+import com.rakor.xuepinyin.ui.rememberInputMode
 
 object CandyColors {
     val Background = Color(0xFFFFF6E9)
@@ -54,9 +59,19 @@ private val CandyScheme = lightColorScheme(
     onSecondary = CandyColors.Ink,
 )
 
+/** 主题 + 设备档位：TV 基准字号；平板横屏整体下调一档（fontScale × 0.85，触控焦点态自动弱化） */
 @Composable
 fun CandyTheme(content: @Composable () -> Unit) {
-    MaterialTheme(colorScheme = CandyScheme, content = content)
+    val inputMode = rememberInputMode()
+    val density = LocalDensity.current
+    val tierDensity = if (inputMode == InputMode.TOUCH) {
+        Density(density.density, density.fontScale * 0.85f)
+    } else {
+        density
+    }
+    CompositionLocalProvider(LocalDensity provides tierDensity) {
+        MaterialTheme(colorScheme = CandyScheme, content = content)
+    }
 }
 
 /** TV 焦点态：放大 1.06 + 深可可描边 + 硬阴影（平板触控下不触发，视觉自动弱化） */
