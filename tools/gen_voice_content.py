@@ -41,6 +41,13 @@ REWARD = [
     "三颗星，你太棒了！",
 ]
 
+# airvoz 对单独的 i/u/ü（含四声）返回空音频，改用同音汉字作 TTS 输入（读音相同，key 不变）
+TTS_TEXT_OVERRIDES = {
+    "i": "衣", "ī": "衣", "í": "姨", "ǐ": "椅", "ì": "意",
+    "u": "乌", "ū": "乌", "ú": "无", "ǔ": "五", "ù": "物",
+    "ü": "迂", "ǖ": "迂", "ǘ": "于", "ǚ": "雨", "ǜ": "玉",
+}
+
 
 def main() -> None:
     course = json.loads(LESSONS.read_text(encoding="utf-8"))
@@ -59,11 +66,11 @@ def main() -> None:
         for letter in lesson["letters"]:
             pinyin = letter["pinyin"]
             call = letter["tones"][0] if letter["tones"] else INITIAL_CALL[pinyin]
-            push(pinyin, call)
+            push(pinyin, TTS_TEXT_OVERRIDES.get(call, call))
             if letter.get("mnemonic"):
                 push(f"{pinyin}_mn", letter["mnemonic"])
             for i, tone in enumerate(letter["tones"]):
-                push(f"{pinyin}_tone{i}", tone)
+                push(f"{pinyin}_tone{i}", TTS_TEXT_OVERRIDES.get(tone, tone))
 
         units.append({"id": uid, "lines": lines})
         for key, line_no in unit_keys:
