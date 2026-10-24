@@ -55,10 +55,15 @@ class CourseParserTest {
     }
 
     @Test
-    fun `coursesOf 按 unitId 过滤`() {
+    fun `lessonsOf 按 unitId 过滤`() {
         val course = CourseParser.parse(sample)
         assertEquals(1, course.lessonsOf(1).size)
         assertTrue(course.lessonsOf(9).isEmpty())
+    }
+
+    @Test(expected = CourseParser.ParseException::class)
+    fun `非法 type 枚举抛出 ParseException`() {
+        CourseParser.parse(sample.replace("\"INITIAL\"", "\"NOT_A_TYPE\""))
     }
 
     @Test(expected = CourseParser.ParseException::class)
