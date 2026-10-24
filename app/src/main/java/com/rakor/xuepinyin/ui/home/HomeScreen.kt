@@ -13,7 +13,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
@@ -44,7 +46,7 @@ fun HomeScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(CandyColors.Background)
-            .padding(horizontal = 28.dp, vertical = 16.dp),
+            .padding(horizontal = 28.dp, vertical = 12.dp),
     ) {
         HomeTopBar(onOpenModule, onOpenParent)
         Spacer(Modifier.height(10.dp))
@@ -56,8 +58,8 @@ fun HomeScreen(
         )
         Spacer(Modifier.height(12.dp))
         Column(
-            verticalArrangement = Arrangement.spacedBy(10.dp),
-            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier.weight(1f).verticalScroll(rememberScrollState()),
         ) {
             course.units.forEach { unit ->
                 UnitSection(
@@ -131,7 +133,7 @@ private fun HeroCard(lesson: Lesson, completed: Int, total: Int, onStart: () -> 
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFFA4602A),
             )
-            Text(lesson.title, fontSize = 40.sp, fontWeight = FontWeight.Black, color = CandyColors.Ink)
+            Text(lesson.title, fontSize = 32.sp, fontWeight = FontWeight.Black, color = CandyColors.Ink)
             Text("已学 $completed / $total 课 · 跟着熊猫奇奇学发音", fontSize = 14.sp, color = CandyColors.InkSoft)
         }
         Text("🐼", fontSize = 52.sp)
@@ -203,7 +205,7 @@ private fun LessonChip(
     }
     Button(
         onClick = onOpen,
-        modifier = modifier.fillMaxWidth().height(64.dp).candyFocus(),
+        modifier = modifier.fillMaxWidth().height(56.dp).candyFocus(),
         colors = ButtonDefaults.buttonColors(containerColor = bg, contentColor = content),
         shape = RoundedCornerShape(12.dp),
     ) {
