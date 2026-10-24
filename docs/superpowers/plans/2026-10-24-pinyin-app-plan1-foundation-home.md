@@ -6,7 +6,7 @@
 
 **Architecture:** 单 Activity + Navigation Compose；`ui/`（主题与页面）、`domain/model`（课程模型与解析）、`data/`（assets 课程仓库）。课程内容为 `assets/lessons.json`，经 kotlinx.serialization 解析，纯 JVM 可测。其余四模块与课程页本计划先挂占位路由（后续计划逐个替换）。
 
-**Tech Stack:** Kotlin 2.0.21、AGP 8.7.3、Compose BOM 2024.10.00（material3）、androidx.tv 1.0.0（已声明，后续计划使用其焦点组件）、Navigation Compose 2.8.3、kotlinx.serialization 1.7.3、JUnit4。
+**Tech Stack:** Kotlin 2.2.21、AGP 8.13.2、Gradle 9.5.1、Compose BOM 2026.09.00（material3）、androidx.tv（tv-material 1.1.0 / tv-foundation 1.0.0）、Navigation Compose 2.10.2、kotlinx.serialization 1.9.0、JUnit4。版本已按本机环境（GraalVM JDK 25 + Gradle 9.5.1 CLI，均已安装）在阿里云镜像逐一核实可用。
 
 **设计依据:** `docs/superpowers/specs/2026-10-24-pinyin-tv-app-design.md`
 
@@ -14,7 +14,7 @@
 
 ## 执行环境注意（Windows + Git Bash，必读）
 
-1. **JDK 17 必需**（AGP 8.x 要求）。先执行 `java -version`；若无或低于 17：`winget install --id EclipseAdoptium.Temurin.17.JDK` 后重开终端。设置 `JAVA_HOME` 指向 JDK 17 目录。
+1. **JDK 17+ 必需**（AGP 8.x 要求；本机已装 GraalVM JDK 25，满足）。执行 `java -version` 确认 ≥17 即可。本机 Gradle CLI 为 9.5.1，与 wrapper 版本一致。
 2. **国内镜像优先**：Gradle 分发包用腾讯镜像（见 Task 1 的 `gradle-wrapper.properties`）；Maven 仓库用阿里云镜像（见 `settings.gradle.kts`），国内直连即可，无需代理。
 3. **代理兜底**：若镜像缺少某个制品需要回退 `google()`/`mavenCentral()`，取消 `gradle.properties` 中代理四行的注释（本机代理 `127.0.0.1:9999`，见全局说明）。
 4. 所有 `gradlew` 命令在仓库根 `D:\develop\src\rakor\xuepinyin` 下用 Git Bash 执行（`./gradlew ...`）。
@@ -57,7 +57,7 @@ app/src/test/java/com/rakor/xuepinyin/ProgressRuleTest.kt
 
 - [ ] **Step 1: 确认 JDK 17 与 Gradle**
 
-Run: `java -version`（期望 17.x）；`gradle -v`（若无：`winget install --id Gradle.Gradle.8` 或从 https://mirrors.cloud.tencent.com/gradle/ 下载 8.9 zip 解压并加入 PATH）。
+Run: `java -version`（期望 ≥17；本机为 25）；`gradle -v`（期望 9.5.1；若无：从 https://mirrors.cloud.tencent.com/gradle/ 下载 9.5.1 zip 解压并加入 PATH）。
 
 - [ ] **Step 2: 写 `settings.gradle.kts`**
 
@@ -89,10 +89,10 @@ include(":app")
 
 ```kotlin
 plugins {
-    id("com.android.application") version "8.7.3" apply false
-    id("org.jetbrains.kotlin.android") version "2.0.21" apply false
-    id("org.jetbrains.kotlin.plugin.compose") version "2.0.21" apply false
-    id("org.jetbrains.kotlin.plugin.serialization") version "2.0.21" apply false
+    id("com.android.application") version "8.13.2" apply false
+    id("org.jetbrains.kotlin.android") version "2.2.21" apply false
+    id("org.jetbrains.kotlin.plugin.compose") version "2.2.21" apply false
+    id("org.jetbrains.kotlin.plugin.serialization") version "2.2.21" apply false
 }
 ```
 
@@ -112,12 +112,12 @@ android.nonTransitiveRClass=true
 
 - [ ] **Step 5: 生成 wrapper 并指向腾讯镜像**
 
-Run: `gradle wrapper --gradle-version 8.9`
+Run: `gradle wrapper --gradle-version 9.5.1`
 
 然后编辑 `gradle/wrapper/gradle-wrapper.properties`，将 `distributionUrl` 一行替换为：
 
 ```properties
-distributionUrl=https\://mirrors.cloud.tencent.com/gradle/gradle-8.9-bin.zip
+distributionUrl=https\://mirrors.cloud.tencent.com/gradle/gradle-9.5.1-bin.zip
 ```
 
 - [ ] **Step 6: 写 `app/build.gradle.kts`**
@@ -132,12 +132,12 @@ plugins {
 
 android {
     namespace = "com.rakor.xuepinyin"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.rakor.xuepinyin"
         minSdk = 21
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
         versionName = "0.1.0"
     }
@@ -148,22 +148,27 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions { jvmTarget = "17" }
     buildFeatures { compose = true }
 }
 
+kotlin {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+    }
+}
+
 dependencies {
-    val composeBom = platform("androidx.compose:compose-bom:2024.10.00")
+    val composeBom = platform("androidx.compose:compose-bom:2026.09.00")
     implementation(composeBom)
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
-    implementation("androidx.core:core-ktx:1.13.1")
-    implementation("androidx.activity:activity-compose:1.9.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
+    implementation("androidx.core:core-ktx:1.19.1")
+    implementation("androidx.activity:activity-compose:1.13.0")
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.foundation:foundation")
     implementation("androidx.compose.material3:material3")
     implementation("androidx.tv:tv-foundation:1.0.0")
-    implementation("androidx.tv:tv-material:1.0.0")
-    implementation("androidx.navigation:navigation-compose:2.8.3")
+    implementation("androidx.tv:tv-material:1.1.0")
+    implementation("androidx.navigation:navigation-compose:2.10.2")
     testImplementation("junit:junit:4.13.2")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
