@@ -1,0 +1,211 @@
+{
+  "units": [
+    {"id": 1, "title": "拼音一 · 单韵母和声母", "lessonStart": 1, "lessonEnd": 6},
+    {"id": 2, "title": "拼音二 · 平翘舌和复韵母", "lessonStart": 7, "lessonEnd": 10},
+    {"id": 3, "title": "拼音三 · 前后鼻韵母", "lessonStart": 11, "lessonEnd": 13}
+  ],
+  "lessons": [
+    {
+      "id": 1, "unitId": 1, "title": "a o e", "note": null,
+      "letters": [
+        {"pinyin": "a", "type": "SINGLE_FINAL", "tones": ["ā","á","ǎ","à"], "mnemonic": "张大嘴巴 a a a", "sceneEmoji": "👧", "sceneWord": "啊"},
+        {"pinyin": "o", "type": "SINGLE_FINAL", "tones": ["ō","ó","ǒ","ò"], "mnemonic": "圆圆嘴巴 o o o", "sceneEmoji": "🐓", "sceneWord": "喔"},
+        {"pinyin": "e", "type": "SINGLE_FINAL", "tones": ["ē","é","ě","è"], "mnemonic": "扁扁嘴巴 e e e", "sceneEmoji": "🦢", "sceneWord": "鹅"}
+      ],
+      "toneDrills": ["ā á ǎ à", "ō ó ǒ ò", "ē é ě è"],
+      "syllables": [],
+      "holisticSyllables": []
+    },
+    {
+      "id": 2, "unitId": 1, "title": "i u ü y w", "note": "y、w 是声母，帮 i、u、ü 写音节：yi、wu、yu",
+      "letters": [
+        {"pinyin": "i", "type": "SINGLE_FINAL", "tones": ["ī","í","ǐ","ì"], "mnemonic": "穿新衣 i i i", "sceneEmoji": "👕", "sceneWord": "衣"},
+        {"pinyin": "u", "type": "SINGLE_FINAL", "tones": ["ū","ú","ǔ","ù"], "mnemonic": "乌鸦叫 u u u", "sceneEmoji": "🐦", "sceneWord": "乌"},
+        {"pinyin": "ü", "type": "SINGLE_FINAL", "tones": ["ǖ","ǘ","ǚ","ǜ"], "mnemonic": "小鱼吐泡 ü ü ü", "sceneEmoji": "🐟", "sceneWord": "鱼"},
+        {"pinyin": "y", "type": "INITIAL", "tones": [], "mnemonic": "树杈 y y y", "sceneEmoji": "🌲", "sceneWord": null},
+        {"pinyin": "w", "type": "INITIAL", "tones": [], "mnemonic": "屋顶 w w w", "sceneEmoji": "🏠", "sceneWord": null}
+      ],
+      "toneDrills": ["yī yí yǐ yì", "wū wú wǔ wù", "yú yǔ"],
+      "syllables": [],
+      "holisticSyllables": ["yi", "wu", "yu"]
+    },
+    {
+      "id": 3, "unitId": 1, "title": "b p m f", "note": null,
+      "letters": [
+        {"pinyin": "b", "type": "INITIAL", "tones": [], "mnemonic": "听广播 b b b", "sceneEmoji": "📻", "sceneWord": null},
+        {"pinyin": "p", "type": "INITIAL", "tones": [], "mnemonic": "爬山坡 p p p", "sceneEmoji": "⛰️", "sceneWord": null},
+        {"pinyin": "m", "type": "INITIAL", "tones": [], "mnemonic": "两个门洞 m m m", "sceneEmoji": "🚪", "sceneWord": null},
+        {"pinyin": "f", "type": "INITIAL", "tones": [], "mnemonic": "一根拐杖 f f f", "sceneEmoji": "🦯", "sceneWord": null}
+      ],
+      "toneDrills": ["bā bá bǎ bà", "pō pó pǒ pò", "mā má mǎ mà", "fū fú fǔ fù"],
+      "syllables": [
+        {"initial": "b", "finalPinyin": "a", "result": "ba", "word": "爸"},
+        {"initial": "p", "finalPinyin": "o", "result": "po", "word": "婆"},
+        {"initial": "m", "finalPinyin": "i", "result": "mi", "word": "米"},
+        {"initial": "f", "finalPinyin": "u", "result": "fu", "word": "父"}
+      ],
+      "holisticSyllables": []
+    },
+    {
+      "id": 4, "unitId": 1, "title": "d t n l", "note": null,
+      "letters": [
+        {"pinyin": "d", "type": "INITIAL", "tones": [], "mnemonic": "马蹄声响 d d d", "sceneEmoji": "🐴", "sceneWord": null},
+        {"pinyin": "t", "type": "INITIAL", "tones": [], "mnemonic": "一把雨伞 t t t", "sceneEmoji": "☂️", "sceneWord": null},
+        {"pinyin": "n", "type": "INITIAL", "tones": [], "mnemonic": "一个门洞 n n n", "sceneEmoji": "🚪", "sceneWord": null},
+        {"pinyin": "l", "type": "INITIAL", "tones": [], "mnemonic": "一根小棒 l l l", "sceneEmoji": "🥢", "sceneWord": null}
+      ],
+      "toneDrills": ["dā dá dǎ dà", "tú tǔ tù", "nǐ nì", "lù lǔ"],
+      "syllables": [
+        {"initial": "d", "finalPinyin": "a", "result": "da", "word": "大"},
+        {"initial": "t", "finalPinyin": "u", "result": "tu", "word": "兔"},
+        {"initial": "n", "finalPinyin": "i", "result": "ni", "word": "你"},
+        {"initial": "l", "finalPinyin": "ü", "result": "lü", "word": "驴"}
+      ],
+      "holisticSyllables": []
+    },
+    {
+      "id": 5, "unitId": 1, "title": "g k h", "note": null,
+      "letters": [
+        {"pinyin": "g", "type": "INITIAL", "tones": [], "mnemonic": "鸽子衔环 g g g", "sceneEmoji": "🕊️", "sceneWord": null},
+        {"pinyin": "k", "type": "INITIAL", "tones": [], "mnemonic": "蝌蚪游水 k k k", "sceneEmoji": "🐛", "sceneWord": null},
+        {"pinyin": "h", "type": "INITIAL", "tones": [], "mnemonic": "一把椅子 h h h", "sceneEmoji": "🪑", "sceneWord": null}
+      ],
+      "toneDrills": ["gē gé gě gè", "kě kè", "hú hǔ hù"],
+      "syllables": [
+        {"initial": "g", "finalPinyin": "e", "result": "ge", "word": "哥"},
+        {"initial": "k", "finalPinyin": "e", "result": "ke", "word": "课"},
+        {"initial": "h", "finalPinyin": "u", "result": "hu", "word": "虎"}
+      ],
+      "holisticSyllables": []
+    },
+    {
+      "id": 6, "unitId": 1, "title": "j q x", "note": "小 ü 见到 j、q、x，去掉两点还读 ü",
+      "letters": [
+        {"pinyin": "j", "type": "INITIAL", "tones": [], "mnemonic": "大母鸡 j j j", "sceneEmoji": "🐔", "sceneWord": null},
+        {"pinyin": "q", "type": "INITIAL", "tones": [], "mnemonic": "气球上天 q q q", "sceneEmoji": "🎈", "sceneWord": null},
+        {"pinyin": "x", "type": "INITIAL", "tones": [], "mnemonic": "切开西瓜 x x x", "sceneEmoji": "🍉", "sceneWord": null}
+      ],
+      "toneDrills": ["jī jí jǐ jì", "qī qí qǐ qì", "xī xí xǐ xì"],
+      "syllables": [
+        {"initial": "j", "finalPinyin": "i", "result": "ji", "word": "鸡"},
+        {"initial": "q", "finalPinyin": "i", "result": "qi", "word": "棋"},
+        {"initial": "x", "finalPinyin": "i", "result": "xi", "word": "西"},
+        {"initial": "j", "finalPinyin": "ü", "result": "ju", "word": "菊"},
+        {"initial": "q", "finalPinyin": "ü", "result": "qu", "word": "区"},
+        {"initial": "x", "finalPinyin": "ü", "result": "xu", "word": "须"}
+      ],
+      "holisticSyllables": []
+    },
+    {
+      "id": 7, "unitId": 2, "title": "z c s", "note": null,
+      "letters": [
+        {"pinyin": "z", "type": "INITIAL", "tones": [], "mnemonic": "像个 2 字 z z z", "sceneEmoji": "2️⃣", "sceneWord": null},
+        {"pinyin": "c", "type": "INITIAL", "tones": [], "mnemonic": "半个圆圈 c c c", "sceneEmoji": "🌗", "sceneWord": null},
+        {"pinyin": "s", "type": "INITIAL", "tones": [], "mnemonic": "蚕儿吐丝 s s s", "sceneEmoji": "🧵", "sceneWord": null}
+      ],
+      "toneDrills": ["zī zí zǐ zì", "cī cí cǐ cì", "sī sí sì"],
+      "syllables": [
+        {"initial": "z", "finalPinyin": "i", "result": "zi", "word": "字"},
+        {"initial": "c", "finalPinyin": "i", "result": "ci", "word": "刺"},
+        {"initial": "s", "finalPinyin": "i", "result": "si", "word": "丝"}
+      ],
+      "holisticSyllables": ["zi", "ci", "si"]
+    },
+    {
+      "id": 8, "unitId": 2, "title": "zh ch sh r", "note": "zh、ch、sh、r 是翘舌音，舌头要翘起来",
+      "letters": [
+        {"pinyin": "zh", "type": "INITIAL", "tones": [], "mnemonic": "织毛衣 zh zh zh", "sceneEmoji": "🧶", "sceneWord": null},
+        {"pinyin": "ch", "type": "INITIAL", "tones": [], "mnemonic": "吃苹果 ch ch ch", "sceneEmoji": "🍎", "sceneWord": null},
+        {"pinyin": "sh", "type": "INITIAL", "tones": [], "mnemonic": "威风狮子 sh sh sh", "sceneEmoji": "🦁", "sceneWord": null},
+        {"pinyin": "r", "type": "INITIAL", "tones": [], "mnemonic": "一轮红日 r r r", "sceneEmoji": "☀️", "sceneWord": null}
+      ],
+      "toneDrills": ["zhī zhí zhǐ zhì", "chī chí chǐ chì", "shī shí shǐ shì", "rì"],
+      "syllables": [
+        {"initial": "zh", "finalPinyin": "i", "result": "zhi", "word": "纸"},
+        {"initial": "ch", "finalPinyin": "e", "result": "che", "word": "车"},
+        {"initial": "sh", "finalPinyin": "u", "result": "shu", "word": "书"},
+        {"initial": "r", "finalPinyin": "i", "result": "ri", "word": "日"}
+      ],
+      "holisticSyllables": ["zhi", "chi", "shi", "ri"]
+    },
+    {
+      "id": 9, "unitId": 2, "title": "ai ei ui", "note": null,
+      "letters": [
+        {"pinyin": "ai", "type": "COMPOUND_FINAL", "tones": ["āi","ái","ǎi","ài"], "mnemonic": "挨在一起 ai ai ai", "sceneEmoji": "👫", "sceneWord": "挨"},
+        {"pinyin": "ei", "type": "COMPOUND_FINAL", "tones": ["ēi","éi","ěi","èi"], "mnemonic": "用力砍柴 ei ei ei", "sceneEmoji": "🪓", "sceneWord": "欸"},
+        {"pinyin": "ui", "type": "COMPOUND_FINAL", "tones": ["uī","uí","uǐ","uì"], "mnemonic": "围上围巾 ui ui ui", "sceneEmoji": "🧣", "sceneWord": "围"}
+      ],
+      "toneDrills": ["āi ái ǎi ài", "ēi éi ěi èi", "uī uí uǐ uì"],
+      "syllables": [
+        {"initial": "b", "finalPinyin": "ai", "result": "bai", "word": "白"},
+        {"initial": "h", "finalPinyin": "ei", "result": "hei", "word": "黑"},
+        {"initial": "d", "finalPinyin": "ui", "result": "dui", "word": "队"}
+      ],
+      "holisticSyllables": []
+    },
+    {
+      "id": 10, "unitId": 2, "title": "ao ou iu", "note": null,
+      "letters": [
+        {"pinyin": "ao", "type": "COMPOUND_FINAL", "tones": ["āo","áo","ǎo","ào"], "mnemonic": "穿上棉袄 ao ao ao", "sceneEmoji": "🧥", "sceneWord": "袄"},
+        {"pinyin": "ou", "type": "COMPOUND_FINAL", "tones": ["ōu","óu","ǒu","òu"], "mnemonic": "水里莲藕 ou ou ou", "sceneEmoji": "🌊", "sceneWord": "藕"},
+        {"pinyin": "iu", "type": "COMPOUND_FINAL", "tones": ["iū","iú","iǔ","iù"], "mnemonic": "邮递员 iu iu iu", "sceneEmoji": "📮", "sceneWord": "邮"}
+      ],
+      "toneDrills": ["āo áo ǎo ào", "ōu óu ǒu òu", "iū iú iǔ iù"],
+      "syllables": [
+        {"initial": "m", "finalPinyin": "ao", "result": "mao", "word": "猫"},
+        {"initial": "l", "finalPinyin": "ou", "result": "lou", "word": "楼"},
+        {"initial": "n", "finalPinyin": "iu", "result": "niu", "word": "牛"}
+      ],
+      "holisticSyllables": []
+    },
+    {
+      "id": 11, "unitId": 3, "title": "ie üe er", "note": "er 是特殊韵母，自己就能成音节",
+      "letters": [
+        {"pinyin": "ie", "type": "COMPOUND_FINAL", "tones": ["iē","ié","iě","iè"], "mnemonic": "椰树高高 ie ie ie", "sceneEmoji": "🌴", "sceneWord": "椰"},
+        {"pinyin": "üe", "type": "COMPOUND_FINAL", "tones": ["üē","üé","üě","üè"], "mnemonic": "一轮弯月 üe üe üe", "sceneEmoji": "🌙", "sceneWord": "月"},
+        {"pinyin": "er", "type": "SPECIAL", "tones": ["ēr","ér","ěr","èr"], "mnemonic": "竖起耳朵 er er er", "sceneEmoji": "👂", "sceneWord": "耳"}
+      ],
+      "toneDrills": ["iē ié iě iè", "üē üé üě üè", "ēr ér ěr èr"],
+      "syllables": [
+        {"initial": "x", "finalPinyin": "ie", "result": "xie", "word": "写"},
+        {"initial": "n", "finalPinyin": "üe", "result": "nüe", "word": "虐"},
+        {"initial": "l", "finalPinyin": "üe", "result": "lüe", "word": "略"}
+      ],
+      "holisticSyllables": ["ye", "yue"]
+    },
+    {
+      "id": 12, "unitId": 3, "title": "an en in un ün", "note": null,
+      "letters": [
+        {"pinyin": "an", "type": "COMPOUND_FINAL", "tones": ["ān","án","ǎn","àn"], "mnemonic": "天安门 an an an", "sceneEmoji": "🏛️", "sceneWord": "安"},
+        {"pinyin": "en", "type": "COMPOUND_FINAL", "tones": ["ēn","én","ěn","èn"], "mnemonic": "摁摁门铃 en en en", "sceneEmoji": "🔔", "sceneWord": "摁"},
+        {"pinyin": "in", "type": "COMPOUND_FINAL", "tones": ["īn","ín","ǐn","ìn"], "mnemonic": "树荫下面 in in in", "sceneEmoji": "🌳", "sceneWord": "荫"},
+        {"pinyin": "un", "type": "COMPOUND_FINAL", "tones": ["ūn","ún","ǔn","ùn"], "mnemonic": "蚊子嗡嗡 un un un", "sceneEmoji": "🦟", "sceneWord": "蚊"},
+        {"pinyin": "ün", "type": "COMPOUND_FINAL", "tones": ["ǖn","ǘn","ǚn","ǜn"], "mnemonic": "朵朵白云 ün ün ün", "sceneEmoji": "☁️", "sceneWord": "云"}
+      ],
+      "toneDrills": ["ān án ǎn àn", "ēn én ěn èn", "īn ín ǐn ìn", "ūn ún ǔn ùn", "ǖn ǘn ǚn ǜn"],
+      "syllables": [
+        {"initial": "b", "finalPinyin": "an", "result": "ban", "word": "班"},
+        {"initial": "ch", "finalPinyin": "en", "result": "chen", "word": "陈"},
+        {"initial": "h", "finalPinyin": "un", "result": "hun", "word": "混"}
+      ],
+      "holisticSyllables": ["yuan", "yin", "yun"]
+    },
+    {
+      "id": 13, "unitId": 3, "title": "ang eng ing ong", "note": null,
+      "letters": [
+        {"pinyin": "ang", "type": "COMPOUND_FINAL", "tones": ["āng","áng","ǎng","àng"], "mnemonic": "小羊上山 ang ang ang", "sceneEmoji": "🐐", "sceneWord": "羊"},
+        {"pinyin": "eng", "type": "COMPOUND_FINAL", "tones": ["ēng","éng","ěng","èng"], "mnemonic": "台灯发亮 eng eng eng", "sceneEmoji": "💡", "sceneWord": "灯"},
+        {"pinyin": "ing", "type": "COMPOUND_FINAL", "tones": ["īng","íng","ǐng","ìng"], "mnemonic": "老鹰飞翔 ing ing ing", "sceneEmoji": "🦅", "sceneWord": "鹰"},
+        {"pinyin": "ong", "type": "COMPOUND_FINAL", "tones": ["ōng","óng","ǒng","òng"], "mnemonic": "钟声嗡嗡 ong ong ong", "sceneEmoji": "⏰", "sceneWord": "钟"}
+      ],
+      "toneDrills": ["āng áng ǎng àng", "ēng éng ěng èng", "īng íng ǐng ìng", "ōng óng ǒng òng"],
+      "syllables": [
+        {"initial": "sh", "finalPinyin": "an", "result": "shan", "word": "山"},
+        {"initial": "d", "finalPinyin": "eng", "result": "deng", "word": "灯"},
+        {"initial": "m", "finalPinyin": "ing", "result": "ming", "word": "明"},
+        {"initial": "zh", "finalPinyin": "ong", "result": "zhong", "word": "中"}
+      ],
+      "holisticSyllables": ["ying"]
+    }
+  ]
+}

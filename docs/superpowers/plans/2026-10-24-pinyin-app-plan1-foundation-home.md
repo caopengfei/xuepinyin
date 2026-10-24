@@ -692,13 +692,13 @@ class CourseIntegrityTest {
         }
     }
 
-    @Test fun `3 个单元 13 课，课程号 1..13 连续`() {
+    @Test fun `3 个单元 13 课，课程号 1-13 连续`() {
         assertEquals(3, course.units.size)
         assertEquals(13, course.lessons.size)
         assertEquals((1..13).toList(), course.lessons.map { it.id })
     }
 
-    @Test fun `单元划分 1-6 / 7-10 / 11-13`() {
+    @Test fun `单元划分 1-6、7-10、11-13`() {
         assertEquals(1..6, course.units[0].lessonRange)
         assertEquals(7..10, course.units[1].lessonRange)
         assertEquals(11..13, course.units[2].lessonRange)
