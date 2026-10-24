@@ -13,3 +13,7 @@ captures/
 .DS_Store
 Thumbs.db
 *.log
+
+# 签名密钥（不入库）
+release.keystore
+keystore.properties
