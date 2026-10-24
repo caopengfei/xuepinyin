@@ -62,9 +62,6 @@ fun PinyinApp(
     val course = repository.course
     var eyeRest by remember { mutableStateOf(false) }
 
-    // 语速设置同步到播放器
-    LaunchedEffect(settings.voiceSpeed) { audioPlayer?.speed = settings.voiceSpeed }
-
     // 护眼提醒：开启时每 20 分钟弹出一次
     LaunchedEffect(settings.eyeRestEnabled) {
         if (settings.eyeRestEnabled) {

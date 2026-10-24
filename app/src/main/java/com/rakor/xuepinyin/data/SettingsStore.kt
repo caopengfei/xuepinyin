@@ -16,7 +16,6 @@ private val Context.settingsDataStore by preferencesDataStore(name = "pinyin_set
 
 @Serializable
 data class AppSettings(
-    val voiceSpeed: Float = 1.0f,
     val eyeRestEnabled: Boolean = true,
 )
 

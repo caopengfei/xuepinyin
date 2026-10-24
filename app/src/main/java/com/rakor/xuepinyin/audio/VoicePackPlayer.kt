@@ -4,13 +4,11 @@ import android.content.Context
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 
-/** 单例式播放器：打断即播（新请求立刻打断旧音频），缺 key 静默降级；语速可调（API 23+） */
+/** 单例式播放器：打断即播（新请求立刻打断旧音频），缺 key 静默降级。语速固定 1.0 */
 class VoicePackPlayer(
     private val context: Context,
     private val pack: VoicePack,
 ) {
-    var speed: Float = 1.0f
-
     private var player: MediaPlayer? = null
 
     fun play(key: String) {
@@ -30,9 +28,6 @@ class VoicePackPlayer(
                 p.setDataSource(fd.fileDescriptor, fd.startOffset, fd.length)
             }
             p.prepare()
-            if (speed != 1.0f && android.os.Build.VERSION.SDK_INT >= 23) {
-                p.playbackParams = p.playbackParams.setSpeed(speed)
-            }
             p.start()
         } catch (_: Exception) {
             // 静默降级：缺资源/解码失败不阻塞学习流程

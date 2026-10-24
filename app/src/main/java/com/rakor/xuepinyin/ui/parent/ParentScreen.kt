@@ -102,25 +102,6 @@ fun ParentScreen(
             // 设置
             Section("设置") {
                 SettingRow(
-                    label = "朗读语速",
-                    value = when {
-                        settings.voiceSpeed <= 0.9f -> "慢速（0.85x）"
-                        settings.voiceSpeed >= 1.1f -> "快速（1.15x）"
-                        else -> "正常（1.0x）"
-                    },
-                    onClickLabel = "切换",
-                ) {
-                    onSettingsChange {
-                        it.copy(
-                            voiceSpeed = when {
-                                it.voiceSpeed <= 0.9f -> 1.0f
-                                it.voiceSpeed >= 1.1f -> 0.85f
-                                else -> 1.15f
-                            },
-                        )
-                    }
-                }
-                SettingRow(
                     label = "护眼提醒（每 20 分钟）",
                     value = if (settings.eyeRestEnabled) "已开启" else "已关闭",
                     onClickLabel = "切换",

@@ -25,7 +25,6 @@ class MainActivity : ComponentActivity() {
         lifecycleScope.launch {
             progressRepository.initialize()
             settingsRepository.initialize()
-            audioPlayer.speed = settingsRepository.state.value.voiceSpeed
         }
         setContent {
             CandyTheme {
