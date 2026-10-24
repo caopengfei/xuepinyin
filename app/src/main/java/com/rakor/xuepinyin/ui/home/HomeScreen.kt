@@ -48,7 +48,7 @@ fun HomeScreen(
             .background(CandyColors.Background)
             .padding(horizontal = 28.dp, vertical = 12.dp),
     ) {
-        HomeTopBar(onOpenModule, onOpenParent)
+        HomeTopBar(onOpenModule, onOpenTable, onOpenParent)
         Spacer(Modifier.height(10.dp))
         HeroCard(
             lesson = course.lesson(currentId)!!,
@@ -77,7 +77,11 @@ fun HomeScreen(
 }
 
 @Composable
-private fun HomeTopBar(onOpenModule: (String) -> Unit, onOpenParent: () -> Unit) {
+private fun HomeTopBar(
+    onOpenModule: (String) -> Unit,
+    onOpenTable: () -> Unit,
+    onOpenParent: () -> Unit,
+) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Box(
@@ -105,6 +109,14 @@ private fun HomeTopBar(onOpenModule: (String) -> Unit, onOpenParent: () -> Unit)
             ) { Text(label, fontSize = 16.sp, fontWeight = FontWeight.Bold) }
         }
         Spacer(Modifier.weight(1f))
+        Button(
+            onClick = onOpenTable,
+            modifier = Modifier.padding(end = 6.dp).candyFocus(),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = CandyColors.Mint,
+                contentColor = Color.White,
+            ),
+        ) { Text("拼音总表", fontSize = 16.sp) }
         Button(
             onClick = onOpenParent,
             modifier = Modifier.candyFocus(),

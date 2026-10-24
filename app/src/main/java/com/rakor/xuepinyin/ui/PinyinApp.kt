@@ -1,6 +1,7 @@
 package com.rakor.xuepinyin.ui
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -12,10 +13,14 @@ import androidx.navigation.navArgument
 import com.rakor.xuepinyin.audio.VoicePackPlayer
 import com.rakor.xuepinyin.data.AssetsCourseRepository
 import com.rakor.xuepinyin.data.ProgressRepository
+import com.rakor.xuepinyin.data.SettingsRepository
 import com.rakor.xuepinyin.domain.nextLessonId
 import com.rakor.xuepinyin.ui.home.HomeScreen
 import com.rakor.xuepinyin.ui.lesson.LessonScreen
+import com.rakor.xuepinyin.ui.parent.ParentScreen
+import com.rakor.xuepinyin.ui.play.PlayScreen
 import com.rakor.xuepinyin.ui.read.ReadScreen
+import com.rakor.xuepinyin.ui.table.PinyinTableScreen
 import com.rakor.xuepinyin.ui.write.WriteScreen
 import kotlinx.coroutines.launch
 
@@ -23,12 +28,17 @@ import kotlinx.coroutines.launch
 fun PinyinApp(
     repository: AssetsCourseRepository,
     progressRepository: ProgressRepository,
+    settingsRepository: SettingsRepository,
     audioPlayer: VoicePackPlayer? = null,
 ) {
     val nav = rememberNavController()
     val scope = rememberCoroutineScope()
     val progress by progressRepository.state.collectAsState()
+    val settings by settingsRepository.state.collectAsState()
     val course = repository.course
+
+    // 语速设置同步到播放器
+    LaunchedEffect(settings.voiceSpeed) { audioPlayer?.speed = settings.voiceSpeed }
 
     NavHost(navController = nav, startDestination = "home") {
         composable("home") {
@@ -70,8 +80,31 @@ fun PinyinApp(
         composable("write") {
             WriteScreen(course = course, onBack = { nav.popBackStack() })
         }
-        composable("play") { StubModuleScreen("玩一玩", onBack = { nav.popBackStack() }) }
-        composable("table") { StubModuleScreen("拼音总表", onBack = { nav.popBackStack() }) }
-        composable("parent") { StubModuleScreen("家长中心", onBack = { nav.popBackStack() }) }
+        composable("play") {
+            PlayScreen(
+                course = course,
+                completedLessonIds = progress.completedLessonIds(),
+                onBack = { nav.popBackStack() },
+                onPlayAudio = { key -> audioPlayer?.play(key) },
+            )
+        }
+        composable("table") {
+            PinyinTableScreen(
+                course = course,
+                onBack = { nav.popBackStack() },
+                onPlayAudio = { key -> audioPlayer?.play(key) },
+            )
+        }
+        composable("parent") {
+            ParentScreen(
+                course = course,
+                progress = progress,
+                settings = settings,
+                onBack = { nav.popBackStack() },
+                onSettingsChange = { transform ->
+                    scope.launch { settingsRepository.update(transform) }
+                },
+            )
+        }
     }
 }
