@@ -120,7 +120,7 @@ v1 交付目标：完成「学一学 / 读一读 / 写一写 / 玩一玩」四�
 ## 7. 技术架构
 
 - Kotlin 2.x；Jetpack Compose for TV（`androidx.tv` Material3：TvLazyColumn/Row、Card）+ Material3 组件；单 Activity + Navigation Compose。
-- `minSdk 21`、`compile/target 36`（2026-09 工具链：Gradle 9.5.1 / AGP 8.13.2 / Kotlin 2.2.21，适配本机 JDK 25）；全应用 `sensorLandscape`。
+- `minSdk 24`、`compile 37 / target 36`（本机实测工具链：Gradle 9.5.1 / AGP 9.1.0（内建 Kotlin）/ Kotlin 2.2.21 / Compose BOM 2026.09.00；minSdk 由 21 上调因新 androidx 库下限，覆盖 Android 7.0+）；全应用 `sensorLandscape`。
 - 单模块内分包：
   - `ui/`：theme（糖果乐园 Design Token）、screens（home / lesson / read / write / play / table / parent / reward）、navigation、focus 工具、InputMode 适配。
   - `domain/`：课程模型、进度状态机、游戏出题器、拼音规则（标调位置、ü 去点）。

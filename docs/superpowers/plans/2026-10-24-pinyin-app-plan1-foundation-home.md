@@ -6,7 +6,7 @@
 
 **Architecture:** 单 Activity + Navigation Compose；`ui/`（主题与页面）、`domain/model`（课程模型与解析）、`data/`（assets 课程仓库）。课程内容为 `assets/lessons.json`，经 kotlinx.serialization 解析，纯 JVM 可测。其余四模块与课程页本计划先挂占位路由（后续计划逐个替换）。
 
-**Tech Stack:** Kotlin 2.2.21、AGP 8.13.2、Gradle 9.5.1、Compose BOM 2026.09.00（material3）、androidx.tv（tv-material 1.1.0 / tv-foundation 1.0.0）、Navigation Compose 2.10.2、kotlinx.serialization 1.9.0、JUnit4。版本已按本机环境（GraalVM JDK 25 + Gradle 9.5.1 CLI，均已安装）在阿里云镜像逐一核实可用。
+**Tech Stack:** Kotlin 2.2.21、AGP 9.1.0（AGP 9 内建 Kotlin 支持，无需 kotlin-android 插件）、Gradle 9.5.1、Compose BOM 2026.09.00（material3）、androidx.tv（tv-material 1.1.0 / tv-foundation 1.0.0）、Navigation Compose 2.10.2、kotlinx.serialization 1.9.0、JUnit4。compileSdk 37 / minSdk 24 / targetSdk 36（本机实测可构建；AGP9 与新 androidx 库的最低要求，minSdk 由 21 上调至 24，Android 7.0+ 设备覆盖）。
 
 **设计依据:** `docs/superpowers/specs/2026-10-24-pinyin-tv-app-design.md`
 
@@ -89,7 +89,7 @@ include(":app")
 
 ```kotlin
 plugins {
-    id("com.android.application") version "8.13.2" apply false
+    id("com.android.application") version "9.1.0" apply false
     id("org.jetbrains.kotlin.android") version "2.2.21" apply false
     id("org.jetbrains.kotlin.plugin.compose") version "2.2.21" apply false
     id("org.jetbrains.kotlin.plugin.serialization") version "2.2.21" apply false
@@ -125,18 +125,17 @@ distributionUrl=https\://mirrors.cloud.tencent.com/gradle/gradle-9.5.1-bin.zip
 ```kotlin
 plugins {
     id("com.android.application")
-    id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.compose")
     id("org.jetbrains.kotlin.plugin.serialization")
 }
 
 android {
     namespace = "com.rakor.xuepinyin"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.rakor.xuepinyin"
-        minSdk = 21
+        minSdk = 24
         targetSdk = 36
         versionCode = 1
         versionName = "0.1.0"
