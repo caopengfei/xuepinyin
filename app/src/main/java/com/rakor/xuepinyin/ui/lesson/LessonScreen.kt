@@ -21,6 +21,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateMapOf
@@ -69,6 +70,9 @@ fun LessonScreen(
         local = transform(local)
         onProgress(transform)
     }
+
+    // 进入课程播欢迎语
+    LaunchedEffect(lesson.id) { onPlayAudio("common/1") }
 
     fun goNextStep() {
         when (stepIndex) {
@@ -131,6 +135,7 @@ fun LessonScreen(
                         { onOpenNext(lesson.id + 1) }
                     } else null,
                     onExit = onExit,
+                    onPlayAudio = onPlayAudio,
                 )
             }
         }
@@ -230,6 +235,10 @@ private fun ViewStep(
 ) {
     val letters = lesson.letters
     val letter = letters[letterIndex.coerceIn(letters.indices)]
+    // 切换字母自动播呼读音
+    LaunchedEffect(lesson.id, letterIndex) {
+        onPlayAudio(audioKey(lesson.id, letter.pinyin))
+    }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
@@ -532,12 +541,17 @@ private fun RewardStep(
     onRestart: () -> Unit,
     onNext: (() -> Unit)?,
     onExit: () -> Unit,
+    onPlayAudio: (String) -> Unit = {},
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
         modifier = Modifier.fillMaxSize(),
     ) {
+        // 结算播奖励语（1~3 星对应 reward/1~3）
+        LaunchedEffect(stars) {
+            if (stars > 0) onPlayAudio("reward/${stars.coerceIn(1, 3)}")
+        }
         Text("🍭", fontSize = 64.sp)
         Spacer(Modifier.height(6.dp))
         Text("本课完成！", fontSize = 34.sp, fontWeight = FontWeight.Black, color = CandyColors.Ink)

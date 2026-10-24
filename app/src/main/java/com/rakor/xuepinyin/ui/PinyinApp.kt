@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.rakor.xuepinyin.audio.VoicePackPlayer
 import com.rakor.xuepinyin.data.AssetsCourseRepository
 import com.rakor.xuepinyin.data.ProgressRepository
 import com.rakor.xuepinyin.domain.nextLessonId
@@ -20,6 +21,7 @@ import kotlinx.coroutines.launch
 fun PinyinApp(
     repository: AssetsCourseRepository,
     progressRepository: ProgressRepository,
+    audioPlayer: VoicePackPlayer? = null,
 ) {
     val nav = rememberNavController()
     val scope = rememberCoroutineScope()
@@ -52,6 +54,7 @@ fun PinyinApp(
                 },
                 onExit = { nav.popBackStack("home", inclusive = false) },
                 onOpenNext = { nextId -> nav.navigate("lesson/$nextId") },
+                onPlayAudio = { key -> audioPlayer?.play(key) },
             )
         }
         composable("read") { StubModuleScreen("读一读", onBack = { nav.popBackStack() }) }

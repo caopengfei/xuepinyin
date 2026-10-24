@@ -83,7 +83,7 @@
       "letters": [
         {"pinyin": "j", "type": "INITIAL", "tones": [], "mnemonic": "大母鸡 j j j", "sceneEmoji": "🐔", "sceneWord": null},
         {"pinyin": "q", "type": "INITIAL", "tones": [], "mnemonic": "气球上天 q q q", "sceneEmoji": "🎈", "sceneWord": null},
-        {"pinyin": "x", "type": "INITIAL", "tones": [], "mnemonic": "切开西瓜 x x x", "sceneEmoji": "🍉", "sceneWord": null}
+        {"pinyin": "x", "type": "INITIAL", "tones": [], "mnemonic": "一个叉叉 x x x", "sceneEmoji": "🍉", "sceneWord": null}
       ],
       "toneDrills": ["jī jí jǐ jì", "qī qí qǐ qì", "xī xí xǐ xì"],
       "syllables": [
@@ -178,7 +178,7 @@
       "letters": [
         {"pinyin": "an", "type": "COMPOUND_FINAL", "tones": ["ān","án","ǎn","àn"], "mnemonic": "天安门 an an an", "sceneEmoji": "🏛️", "sceneWord": "安"},
         {"pinyin": "en", "type": "COMPOUND_FINAL", "tones": ["ēn","én","ěn","èn"], "mnemonic": "摁摁门铃 en en en", "sceneEmoji": "🔔", "sceneWord": "摁"},
-        {"pinyin": "in", "type": "COMPOUND_FINAL", "tones": ["īn","ín","ǐn","ìn"], "mnemonic": "树荫下面 in in in", "sceneEmoji": "🌳", "sceneWord": "荫"},
+        {"pinyin": "in", "type": "COMPOUND_FINAL", "tones": ["īn","ín","ǐn","ìn"], "mnemonic": "大树下面 in in in", "sceneEmoji": "🌳", "sceneWord": "荫"},
         {"pinyin": "un", "type": "COMPOUND_FINAL", "tones": ["ūn","ún","ǔn","ùn"], "mnemonic": "蚊子嗡嗡 un un un", "sceneEmoji": "🦟", "sceneWord": "蚊"},
         {"pinyin": "ün", "type": "COMPOUND_FINAL", "tones": ["ǖn","ǘn","ǚn","ǜn"], "mnemonic": "朵朵白云 ün ün ün", "sceneEmoji": "☁️", "sceneWord": "云"}
       ],
