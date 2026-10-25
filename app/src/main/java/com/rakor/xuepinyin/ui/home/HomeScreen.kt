@@ -1,7 +1,6 @@
 package com.rakor.xuepinyin.ui.home
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,21 +15,25 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
+import com.rakor.xuepinyin.ui.theme.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.rakor.xuepinyin.domain.model.Course
 import com.rakor.xuepinyin.domain.model.Lesson
 import com.rakor.xuepinyin.domain.nextLessonId
-import com.rakor.xuepinyin.ui.theme.CandyColors
-import com.rakor.xuepinyin.ui.theme.candyFocus
+import com.rakor.xuepinyin.ui.theme.AppColors
+import com.rakor.xuepinyin.ui.theme.CaptionStyle
+import com.rakor.xuepinyin.ui.theme.SectionLabelStyle
+import com.rakor.xuepinyin.ui.theme.TitleStyle
+import com.rakor.xuepinyin.ui.theme.appFocus
+import com.rakor.xuepinyin.ui.theme.rememberTvFocus
+import com.rakor.xuepinyin.ui.theme.tvFocusTarget
 
 @Composable
 fun HomeScreen(
@@ -45,10 +48,9 @@ fun HomeScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(CandyColors.Background)
             .padding(horizontal = 28.dp, vertical = 12.dp),
     ) {
-        HomeTopBar(onOpenModule, onOpenTable, onOpenParent)
+        HomeTopBar(onOpenModule, onOpenTable, onOpenParent, onStartLearn = { onOpenLesson(currentId) })
         Spacer(Modifier.height(10.dp))
         HeroCard(
             lesson = course.lesson(currentId)!!,
@@ -81,84 +83,79 @@ private fun HomeTopBar(
     onOpenModule: (String) -> Unit,
     onOpenTable: () -> Unit,
     onOpenParent: () -> Unit,
+    onStartLearn: () -> Unit,
 ) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Box(
                 modifier = Modifier
                     .size(40.dp)
-                    .background(CandyColors.Coral, RoundedCornerShape(10.dp))
-                    .border(2.dp, CandyColors.Ink, RoundedCornerShape(10.dp)),
+                    .background(AppColors.Coral, RoundedCornerShape(10.dp)),
                 contentAlignment = Alignment.Center,
             ) {
-                Text("拼", color = Color.White, fontSize = 20.sp, fontWeight = FontWeight.Black)
+                Text("拼", style = TitleStyle, fontSize = 20.sp, color = Color.White)
             }
             Spacer(Modifier.width(8.dp))
-            Text("拼音乐园", fontSize = 24.sp, fontWeight = FontWeight.Black, color = CandyColors.Ink)
+            Text("拼音乐园", style = TitleStyle, fontSize = 24.sp)
         }
         Spacer(Modifier.width(20.dp))
-        listOf("学一学" to "learn", "读一读" to "read", "写一写" to "write", "玩一玩" to "play").forEach { (label, route) ->
+        // 学一学直接打开当前课程（导航图里没有 learn 路由，走 onOpenModule 会崩）
+        Button(
+            onClick = onStartLearn,
+            modifier = Modifier.padding(end = 6.dp).appFocus(),
+            colors = ButtonDefaults.buttonColors(AppColors.Card, AppColors.Ink),
+            shape = RoundedCornerShape(12.dp),
+        ) { Text("学一学", fontSize = 16.sp) }
+        listOf("读一读" to "read", "写一写" to "write", "玩一玩" to "play").forEach { (label, route) ->
             Button(
                 onClick = { onOpenModule(route) },
-                modifier = Modifier.padding(end = 6.dp).candyFocus(),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = CandyColors.Sun,
-                    contentColor = CandyColors.Ink,
-                ),
-                shape = RoundedCornerShape(20.dp),
-            ) { Text(label, fontSize = 16.sp, fontWeight = FontWeight.Bold) }
+                modifier = Modifier.padding(end = 6.dp).appFocus(),
+                colors = ButtonDefaults.buttonColors(AppColors.Card, AppColors.Ink),
+                shape = RoundedCornerShape(12.dp),
+            ) { Text(label, fontSize = 16.sp) }
         }
         Spacer(Modifier.weight(1f))
         Button(
             onClick = onOpenTable,
-            modifier = Modifier.padding(end = 6.dp).candyFocus(),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = CandyColors.Mint,
-                contentColor = Color.White,
-            ),
+            modifier = Modifier.padding(end = 6.dp).appFocus(),
+            colors = ButtonDefaults.buttonColors(AppColors.Card, AppColors.Ink),
+            shape = RoundedCornerShape(12.dp),
         ) { Text("拼音总表", fontSize = 16.sp) }
         Button(
             onClick = onOpenParent,
-            modifier = Modifier.candyFocus(),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Transparent,
-                contentColor = CandyColors.InkSoft,
-            ),
+            modifier = Modifier.appFocus(),
+            colors = ButtonDefaults.buttonColors(AppColors.Card, AppColors.InkSoft),
+            shape = RoundedCornerShape(12.dp),
         ) { Text("家长中心", fontSize = 16.sp) }
     }
 }
 
 @Composable
 private fun HeroCard(lesson: Lesson, completed: Int, total: Int, onStart: () -> Unit) {
+    // TV 默认焦点：进首页直接落在“开始学习”，OK 即继续学习
+    val startFocus = rememberTvFocus()
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color(0xFFFFE9B8), RoundedCornerShape(14.dp))
-            .border(3.dp, CandyColors.Ink, RoundedCornerShape(14.dp))
-            .padding(horizontal = 18.dp, vertical = 12.dp),
+            .background(AppColors.Card, RoundedCornerShape(16.dp))
+            .padding(horizontal = 20.dp, vertical = 14.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Column(Modifier.weight(1f)) {
             Text(
                 if (completed == 0) "开始学习 · 第 ${lesson.id} 课" else "继续学习 · 第 ${lesson.id} 课",
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color(0xFFA4602A),
+                style = SectionLabelStyle,
             )
-            Text(lesson.title, fontSize = 32.sp, fontWeight = FontWeight.Black, color = CandyColors.Ink)
-            Text("已学 $completed / $total 课 · 跟着熊猫奇奇学发音", fontSize = 14.sp, color = CandyColors.InkSoft)
+            Text(lesson.title, style = TitleStyle, fontSize = 32.sp)
+            Text("已学 $completed / $total 课 · 每天进步一点点", style = CaptionStyle)
         }
-        Text("🐼", fontSize = 52.sp)
         Spacer(Modifier.width(14.dp))
         Button(
             onClick = onStart,
-            modifier = Modifier.candyFocus(),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = CandyColors.Coral,
-                contentColor = Color.White,
-            ),
-            shape = RoundedCornerShape(14.dp),
-        ) { Text("开始学习", fontSize = 20.sp, fontWeight = FontWeight.Black) }
+            modifier = Modifier.tvFocusTarget(startFocus).appFocus(),
+            colors = ButtonDefaults.buttonColors(AppColors.Coral, Color.White),
+            shape = RoundedCornerShape(12.dp),
+        ) { Text("开始学习", fontSize = 20.sp) }
     }
 }
 
@@ -173,15 +170,9 @@ private fun UnitSection(
 ) {
     Column {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Box(
-                modifier = Modifier
-                    .background(CandyColors.Coral, RoundedCornerShape(8.dp))
-                    .padding(horizontal = 10.dp, vertical = 2.dp),
-            ) {
-                Text(title, fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Color.White)
-            }
+            Text(title, style = SectionLabelStyle)
             Spacer(Modifier.width(8.dp))
-            Text(rangeText, fontSize = 13.sp, color = CandyColors.InkSoft)
+            Text(rangeText, style = CaptionStyle, fontSize = 13.sp)
         }
         Spacer(Modifier.height(6.dp))
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -211,26 +202,28 @@ private fun LessonChip(
     modifier: Modifier = Modifier,
 ) {
     val (bg, content) = when (state) {
-        ChipState.DONE -> Color(0xFFE2F7F2) to CandyColors.Ink
-        ChipState.NOW -> CandyColors.Coral to Color.White
-        ChipState.TODO -> CandyColors.Card to CandyColors.InkSoft
+        ChipState.DONE -> AppColors.CoralTrack to AppColors.CoralDeep
+        ChipState.NOW -> AppColors.Coral to Color.White
+        ChipState.TODO -> AppColors.Card to AppColors.Ink
     }
     Button(
         onClick = onOpen,
-        modifier = modifier.fillMaxWidth().height(56.dp).candyFocus(),
-        colors = ButtonDefaults.buttonColors(containerColor = bg, contentColor = content),
+        modifier = modifier.fillMaxWidth().height(56.dp).appFocus(),
+        colors = ButtonDefaults.buttonColors(bg, content),
         shape = RoundedCornerShape(12.dp),
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(
                 when (state) {
-                    ChipState.DONE -> "✓ 第 ${lesson.id} 课"
+                    ChipState.DONE -> "已学 · 第 ${lesson.id} 课"
                     ChipState.NOW -> "第 ${lesson.id} 课"
                     ChipState.TODO -> "第 ${lesson.id} 课"
                 },
+                // 显式行高：默认继承 bodyLarge 的 24sp 会让两行内容撑破 56dp 的 chip，压缩后裁掉文楷下降部
+                lineHeight = 14.sp,
                 fontSize = 11.sp,
             )
-            Text(lesson.title, fontSize = 18.sp, fontWeight = FontWeight.Black)
+            Text(lesson.title, style = TitleStyle, fontSize = 18.sp, lineHeight = 21.5.sp, color = content)
         }
     }
 }
@@ -238,9 +231,9 @@ private fun LessonChip(
 @Composable
 private fun HomeFooter(modifier: Modifier = Modifier) {
     Text(
-        "◀ ▲ ▼ ▶ 方向键选择 · OK 确认 · 返回退出 · 统编版语文一年级上册",
+        "方向键选择 · OK 确认 · 返回退出 · 统编版语文一年级上册",
+        style = CaptionStyle,
         fontSize = 13.sp,
-        color = CandyColors.InkSoft,
         modifier = modifier.padding(top = 4.dp),
     )
 }

@@ -12,7 +12,7 @@ import com.rakor.xuepinyin.data.DataStoreSettingsStore
 import com.rakor.xuepinyin.data.ProgressRepository
 import com.rakor.xuepinyin.data.SettingsRepository
 import com.rakor.xuepinyin.ui.PinyinApp
-import com.rakor.xuepinyin.ui.theme.CandyTheme
+import com.rakor.xuepinyin.ui.theme.AppTheme
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
             settingsRepository.initialize()
         }
         setContent {
-            CandyTheme {
+            AppTheme {
                 PinyinApp(
                     repository = courseRepository,
                     progressRepository = progressRepository,

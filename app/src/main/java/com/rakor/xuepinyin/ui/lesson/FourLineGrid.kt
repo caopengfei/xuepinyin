@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -47,13 +48,21 @@ fun FourLineGrid(
                     )
                 }
             }
+            // 中格槽位：内容不受中格 1/3 高度约束（大字母按四线格本义溢出到上/下格），垂直居中
             Box(
                 modifier = Modifier
                     .align(Alignment.Center)
                     .fillMaxWidth()
                     .fillMaxHeight(1f / 3f),
-                content = bandContent,
-            )
+                contentAlignment = Alignment.Center,
+            ) {
+                Box(
+                    Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight(align = Alignment.CenterVertically, unbounded = true),
+                    content = bandContent,
+                )
+            }
         }
     }
 }

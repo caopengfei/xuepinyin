@@ -10,8 +10,8 @@
 
     <application
         android:label="拼音乐园"
-        android:icon="@drawable/ic_launcher"
-        android:banner="@drawable/tv_banner"
+        android:icon="@mipmap/ic_launcher"
+        android:banner="@drawable/banner"
         android:theme="@style/Theme.XuePinyin"
         android:allowBackup="true"
         android:supportsRtl="true">

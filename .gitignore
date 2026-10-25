@@ -17,3 +17,6 @@ Thumbs.db
 # 签名密钥（不入库）
 release.keystore
 keystore.properties
+
+# 全量字体（子集化源文件，不入库）
+tools/*.ttf

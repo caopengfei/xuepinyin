@@ -1,7 +1,6 @@
 package com.rakor.xuepinyin.ui.lesson
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,8 +16,9 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
+import com.rakor.xuepinyin.ui.theme.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -31,18 +31,22 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.rakor.xuepinyin.R
 import com.rakor.xuepinyin.domain.StrokeOrderHints
 import com.rakor.xuepinyin.domain.model.Lesson
 import com.rakor.xuepinyin.domain.model.LetterType
 import com.rakor.xuepinyin.domain.model.PinyinLetter
-import com.rakor.xuepinyin.domain.model.Syllable
 import com.rakor.xuepinyin.domain.progress.LessonProgress
 import com.rakor.xuepinyin.domain.progress.LessonStep
-import com.rakor.xuepinyin.ui.theme.CandyColors
-import com.rakor.xuepinyin.ui.theme.candyFocus
+import com.rakor.xuepinyin.ui.theme.AppColors
+import com.rakor.xuepinyin.ui.theme.CaptionStyle
+import com.rakor.xuepinyin.ui.theme.TitleStyle
+import com.rakor.xuepinyin.ui.theme.appFocus
+import com.rakor.xuepinyin.ui.theme.rememberTvFocus
+import com.rakor.xuepinyin.ui.theme.tvFocusTarget
 
 private val STEP_NAMES = listOf("认读", "声调", "笔顺", "拼读", "奖励")
 
@@ -90,7 +94,6 @@ fun LessonScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(CandyColors.Background)
             .padding(horizontal = 28.dp, vertical = 12.dp),
     ) {
         LessonHeader(lesson = lesson, stepIndex = stepIndex, onExit = onExit)
@@ -145,19 +148,18 @@ fun LessonScreen(
                 if (stepIndex > 0) {
                     Button(
                         onClick = { stepIndex -= 1 },
-                        modifier = Modifier.candyFocus(),
+                        modifier = Modifier.appFocus(),
                         colors = plainButtonColors(),
+                        shape = RoundedCornerShape(12.dp),
                     ) { Text("上一步", fontSize = 18.sp) }
                     Spacer(Modifier.width(10.dp))
                 }
                 Button(
                     onClick = ::goNextStep,
-                    modifier = Modifier.candyFocus(),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = CandyColors.Coral,
-                        contentColor = Color.White,
-                    ),
-                ) { Text(if (stepIndex == 3) "完成拼读" else "下一步", fontSize = 18.sp, fontWeight = FontWeight.Black) }
+                    modifier = Modifier.appFocus(),
+                    colors = ButtonDefaults.buttonColors(AppColors.Coral, Color.White),
+                    shape = RoundedCornerShape(12.dp),
+                ) { Text(if (stepIndex == 3) "完成拼读" else "下一步", fontSize = 18.sp) }
             }
         }
     }
@@ -165,23 +167,23 @@ fun LessonScreen(
 
 @Composable
 private fun plainButtonColors() = ButtonDefaults.buttonColors(
-    containerColor = CandyColors.Card,
-    contentColor = CandyColors.Ink,
+    containerColor = AppColors.Card,
+    contentColor = AppColors.Ink,
 )
 
 @Composable
 private fun LessonHeader(lesson: Lesson, stepIndex: Int, onExit: () -> Unit) {
     Row(verticalAlignment = Alignment.CenterVertically) {
-        Button(onClick = onExit, colors = plainButtonColors(), modifier = Modifier.candyFocus()) {
+        Button(
+            onClick = onExit,
+            colors = plainButtonColors(),
+            shape = RoundedCornerShape(12.dp),
+            modifier = Modifier.appFocus(),
+        ) {
             Text("返回", fontSize = 16.sp)
         }
         Spacer(Modifier.width(12.dp))
-        Text(
-            "第 ${lesson.id} 课 · ${lesson.title}",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Black,
-            color = CandyColors.Ink,
-        )
+        Text("第 ${lesson.id} 课 · ${lesson.title}", style = TitleStyle, fontSize = 24.sp)
         Spacer(Modifier.width(16.dp))
         STEP_NAMES.forEachIndexed { i, name ->
             val active = i == stepIndex
@@ -189,21 +191,20 @@ private fun LessonHeader(lesson: Lesson, stepIndex: Int, onExit: () -> Unit) {
                 modifier = Modifier
                     .padding(end = 6.dp)
                     .background(
-                        if (active) CandyColors.Coral else CandyColors.Card,
+                        if (active) AppColors.Coral else AppColors.Card,
                         RoundedCornerShape(8.dp),
                     )
-                    .border(1.dp, CandyColors.CardBorder, RoundedCornerShape(8.dp))
                     .padding(horizontal = 8.dp, vertical = 2.dp),
             ) {
-                Text("${i + 1} $name", fontSize = 12.sp, color = if (active) Color.White else CandyColors.InkSoft)
+                Text("${i + 1} $name", fontSize = 12.sp, color = if (active) Color.White else AppColors.InkSoft)
             }
         }
     }
 }
 
 internal fun letterColor(letter: PinyinLetter): Color = when (letter.type) {
-    LetterType.INITIAL -> CandyColors.InitialBlue
-    else -> CandyColors.FinalRed
+    LetterType.INITIAL -> AppColors.InitialBlue
+    else -> AppColors.FinalRed
 }
 
 internal fun audioKey(lessonId: Int, pinyin: String): String = "lesson$lessonId/$pinyin"
@@ -217,8 +218,8 @@ private fun LetterCard(letter: PinyinLetter, bigText: String) {
         ) {
             Text(
                 bigText,
+                style = TitleStyle,
                 fontSize = 84.sp,
-                fontWeight = FontWeight.Black,
                 color = letterColor(letter),
                 modifier = Modifier.align(Alignment.Center),
             )
@@ -239,23 +240,24 @@ private fun ViewStep(
     LaunchedEffect(lesson.id, letterIndex) {
         onPlayAudio(audioKey(lesson.id, letter.pinyin))
     }
+    // TV 默认焦点落在“听一听”：进入认读步骤、点上一/下一字母切换后都回到这里（触控模式不抢焦点）
+    val listenFocus = rememberTvFocus(key = letterIndex)
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
     ) {
         Spacer(Modifier.height(6.dp))
-        Text("认读字母（${letterIndex + 1}/${letters.size}）", fontSize = 14.sp, color = CandyColors.InkSoft)
+        Text("认读字母（${letterIndex + 1}/${letters.size}）", style = CaptionStyle)
         Spacer(Modifier.height(8.dp))
         LetterCard(letter, letter.pinyin)
         Spacer(Modifier.height(10.dp))
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Text((letter.sceneEmoji ?: ""), fontSize = 44.sp)
-            Spacer(Modifier.width(14.dp))
-            Column {
-                letter.sceneWord?.let {
-                    Text("$it —— ${letter.pinyin}", fontSize = 22.sp, fontWeight = FontWeight.Bold, color = CandyColors.Ink)
-                }
-                Text(letter.mnemonic ?: "", fontSize = 20.sp, color = Color(0xFFA4602A), fontWeight = FontWeight.Bold)
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            letter.sceneWord?.let {
+                Text("$it —— ${letter.pinyin}", style = TitleStyle, fontSize = 22.sp)
+            }
+            letter.mnemonic?.let {
+                Spacer(Modifier.height(2.dp))
+                Text(it, style = TitleStyle, fontSize = 20.sp, color = AppColors.InkSoft)
             }
         }
         Spacer(Modifier.height(12.dp))
@@ -264,25 +266,32 @@ private fun ViewStep(
                 onClick = { if (letterIndex > 0) onSelectLetter(letterIndex - 1) },
                 enabled = letterIndex > 0,
                 colors = plainButtonColors(),
-                modifier = Modifier.candyFocus(),
-            ) { Text("◀ 上一字母", fontSize = 16.sp) }
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier.appFocus(),
+            ) { Text("上一字母", fontSize = 16.sp) }
             Spacer(Modifier.width(10.dp))
             Button(
                 onClick = { onPlayAudio(audioKey(lesson.id, letter.pinyin)) },
-                colors = ButtonDefaults.buttonColors(CandyColors.Sun, CandyColors.Ink),
-                modifier = Modifier.candyFocus(),
-            ) { Text("🔊 听一听", fontSize = 16.sp) }
+                colors = ButtonDefaults.buttonColors(AppColors.Honey, Color.White),
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier.tvFocusTarget(listenFocus).appFocus(),
+            ) {
+                Icon(painterResource(R.drawable.ic_music), contentDescription = null, modifier = Modifier.size(18.dp))
+                Spacer(Modifier.width(6.dp))
+                Text("听一听", fontSize = 16.sp)
+            }
             Spacer(Modifier.width(10.dp))
             Button(
                 onClick = { if (letterIndex < letters.size - 1) onSelectLetter(letterIndex + 1) },
                 enabled = letterIndex < letters.size - 1,
                 colors = plainButtonColors(),
-                modifier = Modifier.candyFocus(),
-            ) { Text("下一字母 ▶", fontSize = 16.sp) }
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier.appFocus(),
+            ) { Text("下一字母", fontSize = 16.sp) }
         }
         lesson.note?.let {
             Spacer(Modifier.height(10.dp))
-            Text("💡 $it", fontSize = 15.sp, color = CandyColors.InkSoft)
+            Text("小提示：$it", style = CaptionStyle, fontSize = 15.sp)
         }
     }
 }
@@ -299,13 +308,15 @@ private fun TonesStep(
     onPlayAudio: (String) -> Unit,
 ) {
     val toned = lesson.letters.filter { it.tones.isNotEmpty() }
+    // 默认焦点：有声调时落在第一个声调按钮，纯口诀操练时落在跟读
+    val tonesFocus = rememberTvFocus(key = letterIndex)
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
     ) {
         if (toned.isNotEmpty()) {
             val letter = toned[letterIndex.coerceIn(toned.indices)]
-            Text("声调练习（${letterIndex + 1}/${toned.size}）", fontSize = 14.sp, color = CandyColors.InkSoft)
+            Text("声调练习（${letterIndex + 1}/${toned.size}）", style = CaptionStyle)
             Spacer(Modifier.height(8.dp))
             LetterCard(letter, letter.tones[selectedTone.coerceIn(letter.tones.indices)])
             Spacer(Modifier.height(10.dp))
@@ -317,26 +328,29 @@ private fun TonesStep(
                             onPlayAudio(audioKey(lesson.id, "${letter.pinyin}_tone$i"))
                         },
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = if (i == selectedTone) CandyColors.Sun else CandyColors.Card,
-                            contentColor = CandyColors.Ink,
+                            containerColor = if (i == selectedTone) AppColors.Coral else AppColors.Card,
+                            contentColor = if (i == selectedTone) Color.White else AppColors.Ink,
                         ),
-                        modifier = Modifier.padding(end = 6.dp).candyFocus(),
-                    ) { Text(tone, fontSize = 22.sp, fontWeight = FontWeight.Black) }
+                        shape = RoundedCornerShape(12.dp),
+                        modifier = Modifier
+                            .padding(end = 6.dp)
+                            .then(if (i == 0) Modifier.tvFocusTarget(tonesFocus) else Modifier)
+                            .appFocus(),
+                    ) { Text(tone, style = TitleStyle, fontSize = 22.sp) }
                 }
             }
         } else {
-            Text("声调操练", fontSize = 14.sp, color = CandyColors.InkSoft)
+            Text("声调操练", style = CaptionStyle)
             Spacer(Modifier.height(10.dp))
             lesson.toneDrills.forEach { drill ->
                 Box(
                     modifier = Modifier
                         .padding(vertical = 4.dp)
                         .fillMaxWidth(0.8f)
-                        .background(CandyColors.Card, RoundedCornerShape(10.dp))
-                        .border(2.dp, CandyColors.CardBorder, RoundedCornerShape(10.dp))
+                        .background(AppColors.Card, RoundedCornerShape(10.dp))
                         .padding(horizontal = 18.dp, vertical = 10.dp),
                 ) {
-                    Text(drill, fontSize = 26.sp, fontWeight = FontWeight.Bold, color = CandyColors.FinalRed)
+                    Text(drill, style = TitleStyle, fontSize = 26.sp, color = AppColors.FinalRed)
                 }
             }
         }
@@ -344,22 +358,32 @@ private fun TonesStep(
         Row {
             Button(
                 onClick = onReadAlong,
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = if (readAlongDone) CandyColors.Mint else CandyColors.Coral,
-                    contentColor = Color.White,
-                ),
-                modifier = Modifier.candyFocus(),
-            ) { Text(if (readAlongDone) "✓ 已跟读" else "🎤 跟读", fontSize = 16.sp) }
+                colors = if (readAlongDone) plainButtonColors() else ButtonDefaults.buttonColors(AppColors.Coral, Color.White),
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier
+                    .then(if (toned.isEmpty()) Modifier.tvFocusTarget(tonesFocus) else Modifier)
+                    .appFocus(),
+            ) {
+                Icon(
+                    painterResource(if (readAlongDone) R.drawable.ic_check else R.drawable.ic_mic),
+                    contentDescription = null,
+                    modifier = Modifier.size(18.dp),
+                )
+                Spacer(Modifier.width(6.dp))
+                Text(if (readAlongDone) "已跟读" else "跟读", fontSize = 16.sp)
+            }
             if (toned.size > 1) {
                 Spacer(Modifier.width(10.dp))
                 Button(
                     onClick = { onSelectLetter((letterIndex + 1) % toned.size) },
                     colors = plainButtonColors(),
-                    modifier = Modifier.candyFocus(),
-                ) { Text("换一个字母 ▶", fontSize = 16.sp) }
+                    shape = RoundedCornerShape(12.dp),
+                    modifier = Modifier.appFocus(),
+                ) { Text("换一个字母", fontSize = 16.sp) }
             }
         }
-        Text("跟读完成可多得一颗星 ⭐", fontSize = 13.sp, color = CandyColors.InkSoft)
+        Spacer(Modifier.height(4.dp))
+        Text("跟读完成可多得一颗星", style = CaptionStyle, fontSize = 13.sp)
     }
 }
 
@@ -377,15 +401,17 @@ private fun StrokeStep(
     val strokeCount = Regex("([一两二三四五])笔").find(hint)?.groupValues?.get(1)?.let {
         when (it) { "一" -> 1; "两" -> 2; "三" -> 3; "四" -> 4; else -> 0 }
     } ?: 0
+    // 默认焦点落在“下一笔”，连按 OK 逐笔演示
+    val strokeFocus = rememberTvFocus()
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
     ) {
-        Text("笔顺演示", fontSize = 14.sp, color = CandyColors.InkSoft)
+        Text("笔顺演示", style = CaptionStyle)
         Spacer(Modifier.height(8.dp))
         LetterCard(letter, letter.pinyin)
         Spacer(Modifier.height(10.dp))
-        Text(hint, fontSize = 20.sp, fontWeight = FontWeight.Bold, color = CandyColors.Ink)
+        Text(hint, style = TitleStyle, fontSize = 20.sp)
         Spacer(Modifier.height(10.dp))
         if (strokeCount > 0) {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -395,7 +421,7 @@ private fun StrokeStep(
                             .padding(end = 6.dp)
                             .size(if (i <= strokeIndex) 22.dp else 16.dp)
                             .background(
-                                if (i <= strokeIndex) CandyColors.Coral else CandyColors.CardBorder,
+                                if (i <= strokeIndex) AppColors.Coral else AppColors.TrackBrown,
                                 CircleShape,
                             ),
                     )
@@ -404,12 +430,13 @@ private fun StrokeStep(
                 Button(
                     onClick = { onStrokeNext((strokeIndex + 1).coerceAtMost(strokeCount - 1)) },
                     enabled = strokeIndex < strokeCount - 1,
-                    colors = ButtonDefaults.buttonColors(CandyColors.Sky, Color.White),
-                    modifier = Modifier.candyFocus(),
-                ) { Text("下一笔 ✍", fontSize = 16.sp) }
+                    colors = ButtonDefaults.buttonColors(AppColors.Coral, Color.White),
+                    shape = RoundedCornerShape(12.dp),
+                    modifier = Modifier.tvFocusTarget(strokeFocus).appFocus(),
+                ) { Text("下一笔", fontSize = 16.sp) }
             }
         } else {
-            Text("多字母组合：跟随写一写模块练习", fontSize = 14.sp, color = CandyColors.InkSoft)
+            Text("多字母组合：跟随写一写模块练习", style = CaptionStyle)
         }
         Spacer(Modifier.height(10.dp))
         Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
@@ -417,11 +444,12 @@ private fun StrokeStep(
                 Button(
                     onClick = { onSelectLetter(i) },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = if (i == letterIndex) CandyColors.Sun else CandyColors.Card,
-                        contentColor = CandyColors.Ink,
+                        containerColor = if (i == letterIndex) AppColors.Coral else AppColors.Card,
+                        contentColor = if (i == letterIndex) Color.White else AppColors.Ink,
                     ),
-                    modifier = Modifier.candyFocus(),
-                ) { Text(l.pinyin, fontSize = 18.sp, fontWeight = FontWeight.Black) }
+                    shape = RoundedCornerShape(12.dp),
+                    modifier = Modifier.appFocus(),
+                ) { Text(l.pinyin, style = TitleStyle, fontSize = 18.sp) }
             }
         }
     }
@@ -443,13 +471,15 @@ private fun SyllableStep(
     // 非测验内容（整体认读 / 四声复习）：浏览确认即计为完成
     if (lesson.syllables.isEmpty()) {
         val lines = practiceLines(lesson)
+        // 默认焦点落在“我读完了”
+        val readFocus = rememberTvFocus()
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
         ) {
             Text(
                 if (lesson.holisticSyllables.isNotEmpty()) "整体认读音节（直接整体读）" else "四声复习",
-                fontSize = 14.sp, color = CandyColors.InkSoft,
+                style = CaptionStyle,
             )
             Spacer(Modifier.height(10.dp))
             lines.forEach { line ->
@@ -457,19 +487,19 @@ private fun SyllableStep(
                     modifier = Modifier
                         .padding(vertical = 4.dp)
                         .fillMaxWidth(0.8f)
-                        .background(CandyColors.Card, RoundedCornerShape(10.dp))
-                        .border(2.dp, CandyColors.HolisticGreen.copy(alpha = 0.5f), RoundedCornerShape(10.dp))
+                        .background(AppColors.Card, RoundedCornerShape(10.dp))
                         .padding(horizontal = 18.dp, vertical = 10.dp),
                 ) {
-                    Text(line, fontSize = 26.sp, fontWeight = FontWeight.Black, color = CandyColors.HolisticGreen)
+                    Text(line, style = TitleStyle, fontSize = 26.sp, color = AppColors.HolisticGreen)
                 }
             }
             Button(
                 onClick = { onAnswer(0, true) },
-                colors = ButtonDefaults.buttonColors(CandyColors.Mint, Color.White),
-                modifier = Modifier.padding(top = 8.dp).candyFocus(),
+                colors = if (answers[0] == true) plainButtonColors() else ButtonDefaults.buttonColors(AppColors.Coral, Color.White),
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier.padding(top = 8.dp).tvFocusTarget(readFocus).appFocus(),
                 enabled = answers[0] != true,
-            ) { Text(if (answers[0] == true) "✓ 已完成" else "我读完了 ✓", fontSize = 16.sp) }
+            ) { Text(if (answers[0] == true) "已完成" else "我读完了", fontSize = 16.sp) }
         }
         return
     }
@@ -478,11 +508,13 @@ private fun SyllableStep(
     val distractorPool = remember(lesson.id) {
         listOf("le", "he", "qu", "xi", "zhu", "che", "shu", "bao", "tou", "men", "hai", "kou")
     }
+    // 默认焦点落在第一道题的第一个选项
+    val quizFocus = rememberTvFocus()
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
     ) {
-        Text("拼一拼：声母 ＋ 韵母 → 音节", fontSize = 14.sp, color = CandyColors.InkSoft)
+        Text("拼一拼：声母 ＋ 韵母 → 音节", style = CaptionStyle)
         Spacer(Modifier.height(8.dp))
         items.forEachIndexed { idx, item ->
             val answered = answers[idx]
@@ -498,40 +530,43 @@ private fun SyllableStep(
                 modifier = Modifier
                     .padding(vertical = 6.dp)
                     .fillMaxWidth(0.9f)
-                    .background(CandyColors.Card, RoundedCornerShape(12.dp))
-                    .border(2.dp, CandyColors.CardBorder, RoundedCornerShape(12.dp))
+                    .background(AppColors.Card, RoundedCornerShape(12.dp))
                     .padding(vertical = 8.dp),
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(item.initial, fontSize = 30.sp, fontWeight = FontWeight.Black, color = CandyColors.InitialBlue)
-                    Text(" ＋ ", fontSize = 22.sp, color = CandyColors.InkSoft)
-                    Text(item.finalPinyin, fontSize = 30.sp, fontWeight = FontWeight.Black, color = CandyColors.FinalRed)
-                    Text(" ＝ ？", fontSize = 22.sp, color = CandyColors.InkSoft)
+                    Text(item.initial, style = TitleStyle, fontSize = 30.sp, color = AppColors.InitialBlue)
+                    Text(" ＋ ", fontSize = 22.sp, color = AppColors.InkSoft)
+                    Text(item.finalPinyin, style = TitleStyle, fontSize = 30.sp, color = AppColors.FinalRed)
+                    Text(" ＝ ？", fontSize = 22.sp, color = AppColors.InkSoft)
                     item.word?.let {
                         Spacer(Modifier.width(6.dp))
-                        Text("（$it）", fontSize = 16.sp, color = CandyColors.InkSoft)
+                        Text("（$it）", style = CaptionStyle, fontSize = 16.sp)
                     }
                 }
                 Spacer(Modifier.height(6.dp))
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    options.forEach { opt ->
+                    options.forEachIndexed { optIdx, opt ->
                         val isAnswer = opt == item.result
                         Button(
                             onClick = { onAnswer(idx, opt == item.result) },
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = when {
-                                    answered == true && isAnswer -> CandyColors.Mint
-                                    else -> CandyColors.Card
+                                    answered == true && isAnswer -> AppColors.HolisticGreen
+                                    else -> AppColors.Card
                                 },
-                                contentColor = if (answered == true && isAnswer) Color.White else CandyColors.Ink,
+                                contentColor = if (answered == true && isAnswer) Color.White else AppColors.Ink,
                             ),
-                            modifier = Modifier.candyFocus(),
-                        ) { Text(opt, fontSize = 20.sp, fontWeight = FontWeight.Black) }
+                            shape = RoundedCornerShape(12.dp),
+                            modifier = Modifier
+                                .then(if (idx == 0 && optIdx == 0) Modifier.tvFocusTarget(quizFocus) else Modifier)
+                                .appFocus(),
+                        ) { Text(opt, style = TitleStyle, fontSize = 20.sp) }
                     }
                 }
             }
         }
-        Text("全部选对可得第三颗星 ⭐", fontSize = 13.sp, color = CandyColors.InkSoft)
+        Spacer(Modifier.height(2.dp))
+        Text("全部选对可得第三颗星", style = CaptionStyle, fontSize = 13.sp)
     }
 }
 
@@ -552,16 +587,21 @@ private fun RewardStep(
         LaunchedEffect(stars) {
             if (stars > 0) onPlayAudio("reward/${stars.coerceIn(1, 3)}")
         }
-        Text("🍭", fontSize = 64.sp)
-        Spacer(Modifier.height(6.dp))
-        Text("本课完成！", fontSize = 34.sp, fontWeight = FontWeight.Black, color = CandyColors.Ink)
-        Spacer(Modifier.height(8.dp))
+        // 默认焦点：有下一课时落在“下一课”，否则“再学一遍”
+        val rewardFocus = rememberTvFocus()
+        Text("本课完成！", style = TitleStyle, fontSize = 34.sp)
+        Spacer(Modifier.height(10.dp))
         Row {
             repeat(3) { i ->
-                Text(if (i < stars) "⭐" else "☆", fontSize = 44.sp)
+                Icon(
+                    painterResource(R.drawable.ic_star),
+                    contentDescription = null,
+                    tint = if (i < stars) AppColors.Honey else AppColors.TrackBrown,
+                    modifier = Modifier.size(44.dp),
+                )
             }
         }
-        Spacer(Modifier.height(6.dp))
+        Spacer(Modifier.height(8.dp))
         Text(
             when {
                 stars >= 3 -> "太棒了，三颗星！"
@@ -569,25 +609,35 @@ private fun RewardStep(
                 stars == 1 -> "完成啦！记得跟读和拼读哦"
                 else -> "继续加油！"
             },
-            fontSize = 16.sp, color = CandyColors.InkSoft,
+            style = CaptionStyle,
+            fontSize = 16.sp,
         )
-        Spacer(Modifier.height(14.dp))
+        Spacer(Modifier.height(16.dp))
         Row {
-            Button(onClick = onRestart, colors = plainButtonColors(), modifier = Modifier.candyFocus()) {
-                Text("再学一遍", fontSize = 16.sp)
-            }
+            Button(
+                onClick = onRestart,
+                colors = plainButtonColors(),
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier
+                    .then(if (onNext == null) Modifier.tvFocusTarget(rewardFocus) else Modifier)
+                    .appFocus(),
+            ) { Text("再学一遍", fontSize = 16.sp) }
             Spacer(Modifier.width(10.dp))
             if (onNext != null) {
                 Button(
                     onClick = onNext,
-                    colors = ButtonDefaults.buttonColors(CandyColors.Coral, Color.White),
-                    modifier = Modifier.candyFocus(),
-                ) { Text("下一课 ▶", fontSize = 16.sp, fontWeight = FontWeight.Black) }
+                    colors = ButtonDefaults.buttonColors(AppColors.Coral, Color.White),
+                    shape = RoundedCornerShape(12.dp),
+                    modifier = Modifier.tvFocusTarget(rewardFocus).appFocus(),
+                ) { Text("下一课", fontSize = 16.sp) }
                 Spacer(Modifier.width(10.dp))
             }
-            Button(onClick = onExit, colors = plainButtonColors(), modifier = Modifier.candyFocus()) {
-                Text("返回首页", fontSize = 16.sp)
-            }
+            Button(
+                onClick = onExit,
+                colors = plainButtonColors(),
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier.appFocus(),
+            ) { Text("返回首页", fontSize = 16.sp) }
         }
     }
 }
