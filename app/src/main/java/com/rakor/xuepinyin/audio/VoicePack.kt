@@ -16,7 +16,7 @@ class VoicePack(
 
     fun contains(key: String): Boolean = key in keys
 
-    /** assets 内相对路径，如 "audio/lesson1/line3.opus"；缺 key 返回 null（静默降级） */
+    /** assets 内相对路径，如 "audio/lesson1/line3.mp3"；缺 key 返回 null（静默降级） */
     fun fileOf(key: String): String? =
         keys[key]?.let { "audio/${it.unit}/line${it.line}.$AUDIO_EXT" }
 
@@ -27,7 +27,7 @@ class VoicePack(
     }
 
     companion object {
-        const val AUDIO_EXT = "opus"
+        const val AUDIO_EXT = "mp3"
 
         @Serializable
         private data class KeysDto(val keys: Map<String, KeyRef>)

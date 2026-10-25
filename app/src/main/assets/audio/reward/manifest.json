@@ -1,20 +1,20 @@
 {
  "lines": [
   {
-   "file": "line1.opus",
-   "durationMs": 2478
+   "file": "line1.mp3",
+   "durationMs": 2472
   },
   {
-   "file": "line2.opus",
-   "durationMs": 2622
+   "file": "line2.mp3",
+   "durationMs": 2616
   },
   {
-   "file": "line3.opus",
-   "durationMs": 3006
+   "file": "line3.mp3",
+   "durationMs": 3000
   },
   {
-   "file": "line4.opus",
-   "durationMs": 3270
+   "file": "line4.mp3",
+   "durationMs": 3264
   }
  ]
 }

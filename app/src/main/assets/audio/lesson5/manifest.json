@@ -1,28 +1,28 @@
 {
  "lines": [
   {
-   "file": "line1.opus",
-   "durationMs": 2178
+   "file": "line1.mp3",
+   "durationMs": 2172
   },
   {
-   "file": "line2.opus",
-   "durationMs": 2802
+   "file": "line2.mp3",
+   "durationMs": 2796
   },
   {
-   "file": "line3.opus",
-   "durationMs": 2178
+   "file": "line3.mp3",
+   "durationMs": 2172
   },
   {
-   "file": "line4.opus",
-   "durationMs": 2658
+   "file": "line4.mp3",
+   "durationMs": 2652
   },
   {
-   "file": "line5.opus",
-   "durationMs": 2178
+   "file": "line5.mp3",
+   "durationMs": 2172
   },
   {
-   "file": "line6.opus",
-   "durationMs": 2802
+   "file": "line6.mp3",
+   "durationMs": 2796
   }
  ]
 }

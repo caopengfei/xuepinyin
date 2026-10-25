@@ -5,7 +5,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.io.File
 
-/** 语音包资产完整性：keys.json 的每个 key 在源目录都有 manifest 记录与 >1KB 的 opus 文件 */
+/** 语音包资产完整性：keys.json 的每个 key 在源目录都有 manifest 记录与 >1KB 的 mp3 文件 */
 class VoicePackAssetsTest {
 
     private val assetsRoot = File("src/main/assets")
@@ -22,9 +22,9 @@ class VoicePackAssetsTest {
                 .replace(Regex("\\s"), "")
             assertTrue(
                 "manifest 缺行: ${ref.unit}/line${ref.line} (key=$key)",
-                lines.contains("\"file\":\"line${ref.line}.opus\""),
+                lines.contains("\"file\":\"line${ref.line}.mp3\""),
             )
-            val audio = File(assetsRoot, "audio/${ref.unit}/line${ref.line}.opus")
+            val audio = File(assetsRoot, "audio/${ref.unit}/line${ref.line}.mp3")
             assertTrue("缺音频: ${audio.path} (key=$key)", audio.isFile)
             assertTrue("音频过小(<1KB): ${audio.path}", audio.length() > 1024)
         }

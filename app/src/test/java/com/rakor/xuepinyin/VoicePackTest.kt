@@ -31,8 +31,8 @@ class VoicePackTest {
     fun `key 解析为音频文件路径`() {
         val p = pack()
         assertTrue(p.contains("lesson1/a"))
-        assertEquals("audio/lesson1/line1.opus", p.fileOf("lesson1/a"))
-        assertEquals("audio/lesson1/line2.opus", p.fileOf("lesson1/a_tone0"))
+        assertEquals("audio/lesson1/line1.mp3", p.fileOf("lesson1/a"))
+        assertEquals("audio/lesson1/line2.mp3", p.fileOf("lesson1/a_tone0"))
     }
 
     @Test
@@ -52,7 +52,7 @@ class VoicePackTest {
     @Test
     fun `单元无 manifest 时时长为空但文件路径仍可解析`() {
         val p = VoicePack.fromJson(keysJson) { unit -> null }
-        assertEquals("audio/common/line1.opus", p.fileOf("common/1"))
+        assertEquals("audio/common/line1.mp3", p.fileOf("common/1"))
         assertNull(p.durationMsOf("common/1"))
     }
 
