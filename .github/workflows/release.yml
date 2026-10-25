@@ -21,6 +21,8 @@ jobs:
     environment: release
     steps:
       - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0    # 发版说明需要完整历史：找上一个 tag 并列两版间提交清单
 
       # 版本号唯一来源：app/build.gradle.kts 的 defaultConfig
       - name: 读取版本号
@@ -113,6 +115,45 @@ jobs:
           echo "dir=$(dirname "$APK")" >> "$GITHUB_OUTPUT"
           echo "产物：$APK"
 
+      # 发版描述自生成：GitHub 自动 release notes 只认合并的 PR，本项目直接 push main，
+      # 自动生成只会有一条 Full Changelog 链接，故改为拼提交清单 + 对比链接 + APK sha256
+      - name: 生成发版说明
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          APK_DIR: ${{ steps.apk.outputs.dir }}
+          APK_NAME: ${{ steps.apk.outputs.name }}
+        run: |
+          REPO_URL="https://github.com/${GITHUB_REPOSITORY}"
+          PREV=$(git describe --tags --abbrev=0 "${GITHUB_REF_NAME}^" 2>/dev/null || true)
+          if [ -n "$PREV" ]; then
+            RANGE="$PREV..$GITHUB_REF_NAME"
+            LINK="**完整变更**：$REPO_URL/compare/$PREV...$GITHUB_REF_NAME"
+          else
+            RANGE="$GITHUB_REF_NAME"
+            LINK="**完整变更**：$REPO_URL/commits/$GITHUB_REF_NAME"
+          fi
+          # tformat 每条后置一个换行（条目间不再叠加空行），wc -l 才能数准
+          git log "$RANGE" --no-merges --pretty=tformat:'- %s (`%h`)' > /tmp/commits.md
+          TOTAL=$(wc -l < /tmp/commits.md)
+          SHA=$(cut -d' ' -f1 "$APK_DIR/$APK_NAME.sha256")
+          {
+            echo "## 更新内容"
+            echo
+            if [ "$TOTAL" -eq 0 ]; then
+              echo "- 无新增提交"
+            elif [ "$TOTAL" -gt 100 ]; then
+              head -n 100 /tmp/commits.md
+              echo "（另有 $((TOTAL-100)) 条更早提交，见完整变更链接）"
+            else
+              cat /tmp/commits.md
+            fi
+            echo
+            echo "APK SHA-256：$SHA"
+            echo
+            echo "$LINK"
+          } > release-notes.md
+          cat release-notes.md
+
       # 关键：不信构建脚本，实际读产物签名证书
       - name: 校验 APK 签名
         env:
@@ -148,7 +189,7 @@ jobs:
         with:
           name: 拼音乐园 v${{ steps.version.outputs.version }}
           tag_name: ${{ github.ref_name }}
-          generate_release_notes: true
+          body_path: release-notes.md
           fail_on_unmatched_files: true
           files: |
             ${{ steps.apk.outputs.dir }}/*.apk
