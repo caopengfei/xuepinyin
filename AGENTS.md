@@ -21,7 +21,7 @@ adb install -r app/build/outputs/apk/debug/xuepinyin-v<版本>-debug.apk
 
 - 依赖版本有意锁定，勿随手升级：AGP 9.1.0、Kotlin 2.2.21、Compose BOM 2026.09.00、Gradle 9.5.1；compileSdk 37 / minSdk 23 / targetSdk 36 / JVM target 17。升级前先征得确认。
 - 为支持 minSdk 23（小米盒子4），navigation-compose 锁 2.9.8、datastore-preferences 锁 1.2.1——它们之后的版本（navigation 2.10+ / datastore 1.3+）声明 minSdk 24。
-- Maven 仓库走阿里云镜像（`settings.gradle.kts`），Gradle 发行版走腾讯镜像（`gradle-wrapper.properties`）。境外直连失败时启用 `gradle.properties` 里注释掉的代理配置（127.0.0.1:9999）。
+- Maven 仓库走阿里云镜像（`settings.gradle.kts`，CI 上检测到 `CI=true` 时自动跳过镜像直连 google()/mavenCentral()——境外 runner 走镜像会因偶发 5xx 导致解析失败），Gradle 发行版走腾讯镜像（`gradle-wrapper.properties`）。境外直连失败时启用 `gradle.properties` 里注释掉的代理配置（127.0.0.1:9999）。
 
 ## 目录结构
 
